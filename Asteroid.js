@@ -32,15 +32,7 @@ $(document).ready(function() {
         //player entity for player 1
        var player1 = Crafty.e("2D, Canvas, Controls, Collision, Color, ship, player")
             .attr({move: {left: false, right: false, up: false, down: false}, xspeed: 0, yspeed: 0, decay: 0.9, h: 50, w: 50, radius: 50, start_time: 0, x: Crafty.viewport.width / 2, y: Crafty.viewport.height / 2 })
-            .color('#ff0000')
-            .addComponent(Crafty.c("Start Color", {
-                required: "Color",
-                init: function() {
-                    this.color = 'red';
-                },
-                start_color = 'red'
-
-            }))
+            .color('red')
             .bind("keydown", function(e) {
                 //on keydown, set the move booleans
                 if(e.keyCode === Crafty.keys.RIGHT_ARROW) {
@@ -69,14 +61,13 @@ $(document).ready(function() {
                     else
                     var charge = (time - this.start_time)/1000;
                     
-                    var bullet_color = this.start_color;
-                    Crafty.e("2D, DOM, Color, bullet, red")
+                    Crafty.e("2D, DOM, Color, bullet")
                         .attr({
                             x: this._x+25, 
                             y: this._y, 
                             w: 1.5*charge*50, 
                             h: 1.5*charge*50,
-                            color: bullet_color, 
+         
                             rotation: this._rotation, 
                             xspeed: 20 * Math.sin(this._rotation / 57.3), 
                             yspeed: 20 * Math.cos(this._rotation / 57.3),
@@ -84,6 +75,7 @@ $(document).ready(function() {
                         
                             
                         })
+                        .color('red')
                         .bind("enterframe", function() {    
                             this.x += this.xspeed;
                             this.y -= this.yspeed;
@@ -138,12 +130,13 @@ $(document).ready(function() {
                 }
                 */
             }).collision()
-            /*.onHit("bullet", function(e) {
+            .onHit("bullet", function(e) {
             //basically the bullet is color A and hits ship B and changes the color to ship A
             //bullets are based on ship A 
             //red to green
-                if(this.start_color != e.color){
-                if(e.color === "#FF0000" && this.start_color === "#00FF00") 
+                if(e.color() != 'red'){
+                    /*
+                if(e.color() === "#FF0000" && this.start_color === "#00FF00") 
                 {
                     this.color = this.color + ("#010000" - "#000001") * e.radius;
 
@@ -153,34 +146,37 @@ $(document).ready(function() {
                     this.color = this.color + ("#010000" - "#000001") * e.radius;
 
                 }
+                */
                 //green to red
-                else if(e.color === "#00FF00" && this.color === "#FF0000") 
+                else if(e.color() === "#00FF00") 
                 {
-                    this.color = this.color + ("#010000" - "#000001") * e.radius;
+                    this.color() = this.color() + ("#010000" - "#000001") * e.radius;
 
                 }
-                
+                /*
                 //green to blue
                 else if(e.color === "#00FF00" && this.color === "#0000FF") 
                 {
                     this.color = this.color + ("#010000" - "#000001") * e.radius;
 
                 }
-                
+                */
                 //blue to red
-                else if(e.color === "#0000FF" && this.color === "#FF0000") 
+                else if(e.color() === "#0000FF") 
                 {
-                    this.color = this.color + ("#010000" - "#000001") * e.radius;
+                    this.color() = this.color() + ("#010000" - "#000001") * e.radius;
                 }
-                
+                /*
                 //blue to green
                 else (e.color === "#0000FF" && this.color === "#00FF00") 
                 { 
                     this.color = this.color + ("#010000" - "#000001") * e.radius;
                 }
-                if(this.color === e.color){
+                */
+                if(this.color() === e.color()){
                        Crafty.scene("end");
                 }
+
                 this.xspeed = this.xspeed - .1*e.xspeed;
                 this.yspeed = this.yspeed - .1*e.yspeed;
                 e[0].obj.destroy();
@@ -188,17 +184,18 @@ $(document).ready(function() {
                 e[0].obj.destroy();
             }
                 
-            })*/.onHit("player", function(e) {
-                if(this.start_color === "red") {
-                    var diff = (this.start_color>>4) - (this.color>>4);
-                    this.color += (.2*diff) << 4;
-                    if(e.start_color === "green") {
-                        this.color -= (.2*diff) << 2;
+            }).onHit("player", function(e) {
+              
+                    var diff = #ff - (this.color()>>4);
+                    this.color() += (.2*diff) << 4;
+                    if(e.color() === "green") {
+                        this.color() -= (.2*diff) << 2;
                     }
                     else {
-                        this.color -= .2*diff;
+                        this.color() -= .2*diff;
                     }
-                }
+                
+                /*
                 else if(this.start_color == "green") {
                     var diff = ((this.start_color >> 8) & "#FF") - (((this.color << 8) >> 16) & "#FF");
                     this.color += (.2*diff) << 8;
@@ -220,6 +217,7 @@ $(document).ready(function() {
                         this.color -= (.2*diff) << 16;
                     }
                 }
+                */
                 this.xspeed = this.xspeed - e.xspeed;
                 this.yspeed = this.yspeed - e.yspeed;
             });
