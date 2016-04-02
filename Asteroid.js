@@ -31,15 +31,16 @@ $(document).ready(function() {
 
         //player entity for player 1
        var player1 = Crafty.e("2D, Canvas, Controls, Collision, Color, ship, player")
-            .attr({move: {left: false, right: false, up: false, down: false}, xspeed: 0, yspeed: 0, decay: 0.9, h: 50, w: 50, radius: 50, start_time: 0, x: Crafty.viewport.width / 2, y: Crafty.viewport.height / 2, start_color: Crafty.c("Start Color", {
+            .attr({move: {left: false, right: false, up: false, down: false}, xspeed: 0, yspeed: 0, decay: 0.9, h: 50, w: 50, radius: 50, start_time: 0, x: Crafty.viewport.width / 2, y: Crafty.viewport.height / 2 })
+            .color('#ff0000')
+            .addComponent(Crafty.c("Start Color", {
                 required: "Color",
                 init: function() {
                     this.color = 'red';
-                }
+                },
+                start_color = 'red'
 
-            })})
-            .color('#ff0000')
-            .start_color.color('this.color')
+            }))
             .bind("keydown", function(e) {
                 //on keydown, set the move booleans
                 if(e.keyCode === Crafty.keys.RIGHT_ARROW) {
