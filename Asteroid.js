@@ -4,19 +4,19 @@ $(document).ready(function() {
     Crafty.canvas();
     //Crafty.scene("main");
     //preload the needed assets
-    /*
+    
     Crafty.load(["player.png"], function() {
         //splice the spritemap
-        Crafty.sprite("player.png", 
+        Crafty.sprite(1, "player.png", 
         {
             ship: [0,0]
         });
         
         //start the main scene when loaded
-        
+        Crafty.scene("main");
     });
-    */
-   Crafty.scene("main");
+
+   
    // Crafty.scene("gameover", function(e) {
         
         //need something here to restart the game
@@ -29,7 +29,7 @@ $(document).ready(function() {
     
     
     Crafty.scene("main", function() {
-        Crafty.background('#ffffff /*url(bg.png)*/');
+        Crafty.background("#ffff00");
 
         /*
         //score display
@@ -218,6 +218,7 @@ $(document).ready(function() {
                 this.xspeed = this.xspeed - e.xspeed;
                 this.yspeed = this.yspeed - e.yspeed;
             });
+            
     });
     
 });
