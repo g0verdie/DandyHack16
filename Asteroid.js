@@ -31,9 +31,17 @@ $(document).ready(function() {
     Crafty.scene("main", function() {
         Crafty.background("#ffffff");
 
-
+        Crafty.c("start_color", {
+            init: function(){
+                this.addComponent("Color");
+            }
+            place: function(color){
+                this.color = color;
+                return this;
+            }
+        })
         
-        /*
+        
         //score display
         var score = Crafty.e("2D, DOM, Text")
             .text("Score: 0")
@@ -42,7 +50,7 @@ $(document).ready(function() {
          */
         //player entity for player 1
        var player1 = Crafty.e("2D, Canvas, Controls, Collision, Color, ship, player")
-            .attr({move: {left: false, right: false, up: false, down: false}, xspeed: 0, yspeed: 0, decay: 0.9, h: 50, w: 50, radius: 50, start_time: 0, x: Crafty.viewport.width / 2, y: Crafty.viewport.height / 2, start_color: 'red'})
+            .attr({move: {left: false, right: false, up: false, down: false}, xspeed: 0, yspeed: 0, decay: 0.9, h: 50, w: 50, radius: 50, start_time: 0, x: Crafty.viewport.width / 2, y: Crafty.viewport.height / 2, start_color: "#FF0000"})
             .color('red')
             .bind("keydown", function(e) {
                 //on keydown, set the move booleans
@@ -65,15 +73,21 @@ $(document).ready(function() {
                 } else if(e.keyCode === Crafty.keys.UP_ARROW) {
                     this.move.up = false;
                 } else if(e.keyCode === Crafty.keys.SPACE) {
-
-                    var charge = (new Date()).getTime() - this.start_time;
+                    var time = new Date().getTime();
+                    if((time - this.start_time) >= 5000)
+                        var charge = 5;
+                    
+                    else
+                    var charge = (time - this.start_time)/1000;
+                    
                     var bullet_color = this.start_color;
-                    Crafty.e("2D, DOM, Color, bullet")
+                    Crafty.e("2D, DOM, Color, bullet, red")
                         .attr({
-                            x: this._x, 
+                            x: this._x+25, 
                             y: this._y, 
-                            w: 15, 
-                            h: 15, 
+                            w: 1.5*charge*50, 
+                            h: 1.5*charge*50,
+                            color: bullet_color, 
                             rotation: this._rotation, 
                             xspeed: 20 * Math.sin(this._rotation / 57.3), 
                             yspeed: 20 * Math.cos(this._rotation / 57.3),
@@ -81,7 +95,6 @@ $(document).ready(function() {
                         
                             
                         })
-                        .color('red')
                         .bind("enterframe", function() {    
                             this.x += this.xspeed;
                             this.y -= this.yspeed;
@@ -136,7 +149,7 @@ $(document).ready(function() {
                 }
                 */
             }).collision()
-            .onHit("bullet", function(e) {
+            /*.onHit("bullet", function(e) {
             //basically the bullet is color A and hits ship B and changes the color to ship A
             //bullets are based on ship A 
             //red to green
@@ -186,7 +199,7 @@ $(document).ready(function() {
                 e[0].obj.destroy();
             }
                 
-            }).onHit("player", function(e) {
+            })*/.onHit("player", function(e) {
                 if(this.start_color === "red") {
                     var diff = (this.start_color>>4) - (this.color>>4);
                     this.color += (.2*diff) << 4;
