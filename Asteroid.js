@@ -28,30 +28,11 @@ $(document).ready(function() {
     //});
     
     
-    Crafty.scene("main", function() {
-        Crafty.background("#ffffff");
 
-        Crafty.c("start_color", {
-            init: function(){
-                this.addComponent("Color");
-            }
-            place: function(color){
-                this.color = color;
-                return this;
-            }
-        })
-        
-        
-        //score display
-        var score = Crafty.e("2D, DOM, Text")
-            .text("Score: 0")
-            .attr({x: Crafty.viewport.width - 300, y: Crafty.viewport.height - 50, w: 200, h:50})
-            .css({color: "#fff"});
-         */
         //player entity for player 1
        var player1 = Crafty.e("2D, Canvas, Controls, Collision, Color, ship, player")
-            .attr({move: {left: false, right: false, up: false, down: false}, xspeed: 0, yspeed: 0, decay: 0.9, h: 50, w: 50, radius: 50, start_time: 0, x: Crafty.viewport.width / 2, y: Crafty.viewport.height / 2, start_color: "#FF0000"})
-            .color('red')
+            .attr({move: {left: false, right: false, up: false, down: false}, xspeed: 0, yspeed: 0, decay: 0.9, h: 50, w: 50, radius: 50, start_time: 0, x: Crafty.viewport.width / 2, y: Crafty.viewport.height / 2, start_color: "#ff0000"})
+            .color('#ff0000')
             .bind("keydown", function(e) {
                 //on keydown, set the move booleans
                 if(e.keyCode === Crafty.keys.RIGHT_ARROW) {
@@ -237,4 +218,3 @@ $(document).ready(function() {
             
     });
     
-});
