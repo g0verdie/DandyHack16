@@ -29,8 +29,10 @@ $(document).ready(function() {
     
     
     Crafty.scene("main", function() {
-        Crafty.background("#ffff00");
+        Crafty.background("#ffffff");
 
+
+        
         /*
         //score display
         var score = Crafty.e("2D, DOM, Text")
@@ -39,8 +41,9 @@ $(document).ready(function() {
             .css({color: "#fff"});
          */
         //player entity for player 1
-       var player1 = Crafty.e("2D, Canvas, Controls, Collision, Color, circle, player")
-            .attr({move: {left: false, right: false, up: false, down: false}, xspeed: 0, yspeed: 0, decay: 0.9, radius: 50, start_time: 0, x: Crafty.viewport.width / 2, y: Crafty.viewport.height / 2, start_color: "#ff0000", color: "#ff0000"})
+       var player1 = Crafty.e("2D, Canvas, Controls, Collision, Color, ship, player")
+            .attr({move: {left: false, right: false, up: false, down: false}, xspeed: 0, yspeed: 0, decay: 0.9, h: 50, w: 50, radius: 50, start_time: 0, x: Crafty.viewport.width / 2, y: Crafty.viewport.height / 2, start_color: 'red'})
+            .color('red')
             .bind("keydown", function(e) {
                 //on keydown, set the move booleans
                 if(e.keyCode === Crafty.keys.RIGHT_ARROW) {
@@ -49,8 +52,9 @@ $(document).ready(function() {
                     this.move.left = true;
                 } else if(e.keyCode === Crafty.keys.UP_ARROW) {
                     this.move.up = true;
-                } else if(e.keyCode === Crafty.keys.L) {
-                    this.start_time = Date.getTime();
+                } else if(e.keyCode === Crafty.keys.SPACE) {
+                    var d = new Date();
+                    this.start_time = d.getTime();
                 }
             }).bind("keyup", function(e) {
                 //on key up, set the move booleans to false
@@ -60,29 +64,24 @@ $(document).ready(function() {
                     this.move.left = false;
                 } else if(e.keyCode === Crafty.keys.UP_ARROW) {
                     this.move.up = false;
-                } else if(e.keyCode === Crafty.keys.L) {
-                    var charge = Date.getTime() - this.start_time;
-                    var self = this;
-                    Crafty.e("2D, DOM, Color, circle, bullet")
+                } else if(e.keyCode === Crafty.keys.SPACE) {
+
+                    var charge = (new Date()).getTime() - this.start_time;
+                    var bullet_color = this.start_color;
+                    Crafty.e("2D, DOM, Color, bullet")
                         .attr({
                             x: this._x, 
                             y: this._y, 
-                            w: 2, 
-                            h: 5, 
+                            w: 15, 
+                            h: 15, 
                             rotation: this._rotation, 
                             xspeed: 20 * Math.sin(this._rotation / 57.3), 
                             yspeed: 20 * Math.cos(this._rotation / 57.3),
-                            color: this._start_color,
-                            parent: self
+                            
+                        
                             
                         })
-                        .radius = function(){
-                            if(charge < 5000) {
-                                (charge/1000) * 2;
-                            } else {
-                                5 * 2;
-                            }
-                        }
+                        .color('red')
                         .bind("enterframe", function() {    
                             this.x += this.xspeed;
                             this.y -= this.yspeed;
@@ -141,6 +140,7 @@ $(document).ready(function() {
             //basically the bullet is color A and hits ship B and changes the color to ship A
             //bullets are based on ship A 
             //red to green
+                if(this.start_color != e.color){
                 if(e.color === "#FF0000" && this.start_color === "#00FF00") 
                 {
                     this.color = this.color + ("#010000" - "#000001") * e.radius;
@@ -176,12 +176,15 @@ $(document).ready(function() {
                 { 
                     this.color = this.color + ("#010000" - "#000001") * e.radius;
                 }
-                if(this.color === e.parent.start_color){
+                if(this.color === e.color){
                        Crafty.scene("end");
                 }
                 this.xspeed = this.xspeed - .1*e.xspeed;
                 this.yspeed = this.yspeed - .1*e.yspeed;
                 e[0].obj.destroy();
+            } else {
+                e[0].obj.destroy();
+            }
                 
             }).onHit("player", function(e) {
                 if(this.start_color === "red") {
