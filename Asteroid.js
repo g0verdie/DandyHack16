@@ -148,7 +148,7 @@ $(document).ready(function() {
                 }
                 */
                 //green to red
-                else if(e.color() === "#00FF00") 
+                if(e.color() === "#00FF00") 
                 {
                     this.color() = this.color() + ("#010000" - "#000001") * e.radius;
 
@@ -164,7 +164,7 @@ $(document).ready(function() {
                 //blue to red
                 else if(e.color() === "#0000FF") 
                 {
-                    this.color() = this.color() + ("#010000" - "#000001") * e.radius;
+                    this.color(this.color() + ("#010000" - "#000001") * e.radius);
                 }
                 /*
                 //blue to green
@@ -179,8 +179,6 @@ $(document).ready(function() {
 
                 this.xspeed = this.xspeed - .1*e.xspeed;
                 this.yspeed = this.yspeed - .1*e.yspeed;
-                e[0].obj.destroy();
-            } else {
                 e[0].obj.destroy();
             }
                 

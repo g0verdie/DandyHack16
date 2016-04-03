@@ -182,15 +182,18 @@ function main() {
                 
 
 
-                var color1 = ["#FF4500", "#FF4500", "#FF8C00", "#FFFF00", "#FFFACD", "#F5F5DC","#FFE4B5", "#EEE8AA", "#E6E6FA", "#FF00FF", "#DA70D6", "#9370DB", "#00FF00"];
+                var color1 = ["#FF0000", "#FF4500", "#FF8C00", "#FFFF00", "#FFFACD", "#F5F5DC","#FFE4B5", "#EEE8AA", "#E6E6FA", "#FF00FF", "#DA70D6", "#9370DB", "#00FF00"];
 
                 
                   //player1.color() = e.color();
                   
-                  player1.color(color1[cols])
+                  player1.color(color1[cols]);
+                  if(player1.color() != "#ff0000"){
                   
                   console.log("The color is "+cols); 
                   cols++;
+                  e[0].obj.destroy();
+              }
                 //player1.ignoreHits('player1')
                    //player1.color("#000000") 
                    //this.color() + ("#010000" - "#000001") * e.radius;
@@ -380,7 +383,7 @@ function main() {
                 //var blue = 0;
             player2.onHit("bullet", function(e) {
               
-              this.color()<<8
+              //this.color()<<8
             //basically the bullet is color A and hits ship B and changes the color to ship A
             //bullets are based on ship A 
             //red to green
@@ -425,14 +428,18 @@ function main() {
                 
 
 
-                var color2 = ["#0ff000", "32CD32", "#90EE90", "#9aff9a", "#9bcd9b","#838b83","#00fa9a", "#458b74", "#7fffd4", "#20b2aa", "#03A89e", "#800080", "#00ff00","#ff0000"];
+                var color2 = ["#00ff00", "32CD32", "#90EE90", "#9aff9a", "#9bcd9b","#838b83","#00fa9a", "#458b74", "#7fffd4", "#20b2aa", "#03A89e", "#800080", "#00ff00","#ff0000"];
 
                 
                   //player1.color() = e.color();
+                  if(player2.color() != '#00ff00'){
                   
                   player2.color("rgb(255, 0, 0)")
                   
                   console.log("The color is "+hits); 
+                  hits++;
+                  e[0].obj.destroy();
+              }
                   //hits++;
                    //player1.color("#000000") 
                    //this.color() + ("#010000" - "#000001") * e.radius;
