@@ -188,7 +188,7 @@ function main() {
                   //player1.color() = e.color();
                   
                   player1.color(color1[cols]);
-                  if(player1.color() != "#ff0000"){
+                  if(e[0].obj.color() != "#ff0000"){
                   
                   console.log("The color is "+cols); 
                   cols++;
@@ -432,7 +432,7 @@ function main() {
 
                 
                   //player1.color() = e.color();
-                  if(player2.color() != '#00ff00'){
+                  if(e[0].obj.color() != '#00ff00'){
                   
                   player2.color("rgb(255, 0, 0)")
                   
